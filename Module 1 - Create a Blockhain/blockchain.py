@@ -50,7 +50,7 @@ class Blockchain:
         block_index = 1
         while block_index < len(chain):
             block = chain[block_index]
-            if block['previous_hash'] != self.hash[previous_block]:
+            if block['previous_hash'] != self.hash(previous_block):
                 return False
             previous_proof = previous_block['proof']
             proof = block['proof']
@@ -95,6 +95,17 @@ def mine_block():
 def get_chain(): 
     response = {'chain': blockchain.chain,
                 'lenght': len(blockchain.chain)}
+    return jsonify(response), 200
+
+# Validation of the Blockchain
+
+@app.route('/is_valid', methods = ['GET'])
+def is_valid():
+    is_valid = blockchain.is_chain_valid(blockchain.chain)
+    if is_valid:
+        response = {'message': 'The Blockchain is valid.'}
+    else:
+        response = {'message': '!! The Blockchain is not valid !!'}
     return jsonify(response), 200
 
 # Running the App
