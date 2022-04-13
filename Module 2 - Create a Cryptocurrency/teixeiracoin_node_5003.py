@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Module 2 - Create a Cryptocurrency
 
 # To be installed:
@@ -7,17 +6,6 @@
 # requests==2.18.4: pip install requests==2.18.4
 
 # Importing the libraries
-=======
-# Module 1- Create a Cryptocurrency
-
-# To be installed:
-# Flask=-0.12.2: pip install Flask=-0.12.2
-# Postman HTTP Client: https://www.getpostman.com/
-# request==2.18.4: pip install requests==2.18.4
-
-# Importing the 1braries
-
->>>>>>> 6ebc704ddc05b1023152083a6eebafc9f27e6ca9
 import datetime
 import hashlib
 import json
@@ -26,50 +14,29 @@ import requests
 from uuid import uuid4
 from urllib.parse import urlparse
 
-<<<<<<< HEAD
 # Part 1 - Building a Blockchain
 
 class Blockchain:
 
-=======
-# Part 1 Building a Blockchain
-
-class Blockchain:
-    
->>>>>>> 6ebc704ddc05b1023152083a6eebafc9f27e6ca9
     def __init__(self):
         self.chain = []
         self.transactions = []
         self.create_block(proof = 1, previous_hash = '0')
         self.nodes = set()
-<<<<<<< HEAD
     
     def create_block(self, proof, previous_hash):
         block = {'index': len(self.chain) + 1,
                  'timestamp': str(datetime.datetime.now()),
-=======
-
-    def create_block(self, proof, previous_hash):
-        block = {'index': len(self.chain) +1,
-                 "timestamp": str(datetime.datetime.now()),
->>>>>>> 6ebc704ddc05b1023152083a6eebafc9f27e6ca9
                  'proof': proof,
                  'previous_hash': previous_hash,
                  'transactions': self.transactions}
         self.transactions = []
         self.chain.append(block)
         return block
-<<<<<<< HEAD
 
     def get_previous_block(self):
         return self.chain[-1]
 
-=======
-    
-    def get_previous_block(self):
-        return self.chain[-1]
-    
->>>>>>> 6ebc704ddc05b1023152083a6eebafc9f27e6ca9
     def proof_of_work(self, previous_proof):
         new_proof = 1
         check_proof = False
@@ -100,7 +67,6 @@ class Blockchain:
             previous_block = block
             block_index += 1
         return True
-<<<<<<< HEAD
     
     def add_transaction(self, sender, receiver, amount):
         self.transactions.append({'sender': sender,
@@ -144,63 +110,11 @@ blockchain = Blockchain()
 # Mining a new block
 @app.route('/mine_block', methods = ['GET'])
 def mine_block():
-=======
-
-        def add_transactions(self, sender, receiver, amount):
-            self.transactions.append({'sender': sender,
-                                      'receiver': receiver, 
-                                      'amount': amount})
-            
-            previous_block = self.get_previous_block()
-            return previous_block['index'] + 1
-        
-        def add_node(self, address):
-            parsed_url = urlparse(address)
-            self.nodes.add(parsed_url.netloc)
-            
-        def replace_chain(self):
-            network = self.nodes
-            longest_chain = None
-            max_length = len(self.chain)
-            for node in network: 
-                response = requests.get(f'http://{node}/get_chain')
-                if response.status_code == 200:
-                    length = response.json()['lenght']
-                    chain = response.json()['chain']
-                    if length > max_length and self.is_chain_valid(chain):
-                        max_length = length
-                        longest_chain = chain
-            if longest_chain:
-                self.chain = longest_chain
-                return True
-            return False
-                        
-# Part 2 - Mining our Blockchain
-
-# Creatin a Web App
-
-app = Flask(__name__)
-app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
-
-# Creatin an address for the node on Port 5000
-
-node_address = str(uuid4()).replace('-', '')
-
-# Creating a Blockchain
-
-blockchain = Blockchain()
-
-# Mining a new block
-
-@app.route('/mine_block', methods = ['GET'])
-def mine_block():  
->>>>>>> 6ebc704ddc05b1023152083a6eebafc9f27e6ca9
     previous_block = blockchain.get_previous_block()
     previous_proof = previous_block['proof']
     proof = blockchain.proof_of_work(previous_proof)
     previous_hash = blockchain.hash(previous_block)
-<<<<<<< HEAD
-    blockchain.add_transaction(sender = node_address, receiver = 'Diogo', amount = 1)
+    blockchain.add_transaction(sender = node_address, receiver = 'Você', amount = 1)
     block = blockchain.create_block(proof, previous_hash)
     response = {'message': 'Congratulations, you just mined a block!',
                 'index': block['index'],
@@ -218,33 +132,10 @@ def get_chain():
     return jsonify(response), 200
 
 # Checking if the Blockchain is valid
-=======
-    blockchain.add_transaction(sender = node_address, receiver = 'Teixeira', amount = 1)
-    block = blockchain.create_block(proof, previous_hash)
-    response = {'message': 'Congratulations, you just mined a block!',
-        'index': block['index'],
-        'timestamp': block['timestamp'],
-        'proof': block['proof'],
-        'previous_hash': block['previous_hash'],
-        'transactions': block['transactions']}
-    return jsonify(response), 200
-
-# Getting the full Blockchain
-
-@app.route('/get_chain', methods = ['GET'])
-def get_chain(): 
-    response = {'chain': blockchain.chain,
-                'lenght': len(blockchain.chain)}
-    return jsonify(response), 200
-
-# Validation of the Blockchain
-
->>>>>>> 6ebc704ddc05b1023152083a6eebafc9f27e6ca9
 @app.route('/is_valid', methods = ['GET'])
 def is_valid():
     is_valid = blockchain.is_chain_valid(blockchain.chain)
     if is_valid:
-<<<<<<< HEAD
         response = {'message': 'All good. The Blockchain is valid.'}
     else:
         response = {'message': 'Houston, we have a problem. The Blockchain is not valid.'}
@@ -289,32 +180,4 @@ def replace_chain():
     return jsonify(response), 200
 
 # Running the app
-app.run(host = '0.0.0.0', port = 5000)
-=======
-        response = {'message': 'The Blockchain is valid.'}
-    else:
-        response = {'message': '!! The Blockchain is not valid !!'}
-    return jsonify(response), 200
-
-# Part 3 - Decentralizing our Blockchain
-
-# Running the App
-
-app.run(host = '0.0.0.0', port = 5000)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> 6ebc704ddc05b1023152083a6eebafc9f27e6ca9
+app.run(host = '0.0.0.0', port = 5003)
